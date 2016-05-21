@@ -29,6 +29,17 @@
     }
     ```
 
+1. get your todoist api token from the todoist `Settings` > `Account` > `API
+   token`.
+
+1. place your todoist api token in a `todoist.json` file in the repository root
+   that looks like this:
+   ```json
+   {
+       "token": "your-token"
+   }
+   ```
+
 1. :boom:
    ```sh
    ./make_due_cards_todoist_tasks.py
