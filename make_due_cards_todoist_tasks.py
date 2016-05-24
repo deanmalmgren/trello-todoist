@@ -55,7 +55,7 @@ if member is None:
 
 
 def is_due_today(card, today=None):
-    today = today or (datetime.date.today() - datetime.timedelta(seconds=86400))
+    today = today or datetime.date.today()
     return card.due_date and card.due_date.date() == today
 
 # find all of the cards on this board that are owned by this user and are due
@@ -64,8 +64,6 @@ cards_due_today = []
 for card in board.all_cards():
     if member.id in card.member_ids and is_due_today(card):
         cards_due_today.append(card)
-
-print cards_due_today
 
 # create an authenticated instance of the TodoistAPI
 filename = os.path.join(this_dir, 'todoist.json')
@@ -83,7 +81,6 @@ if project_id is None:
     raise ValueError((
         'did not find todoists project "%(todoist_project_name)s"'
     ) % vars(args))
-print project_id
 
 # add due cards as todoist tasks
 for card in cards_due_today:
