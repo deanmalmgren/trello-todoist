@@ -1,7 +1,9 @@
 #!/usr/bin/env python
+# -*- mode: python -*-
 
-"""This script uses the Trello configuration in trello.json and uses that to
-put cards that are due today as todoist tasks.
+"""This script uses the Trello configuration in trello.json and the Todoist
+configuration in todoist.json to put Trello cards that are due today as todoist
+tasks.
 """
 
 import os

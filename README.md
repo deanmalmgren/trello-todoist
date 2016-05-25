@@ -1,3 +1,5 @@
+`trello-todoist` is a productivity hack to add Trello cards that are due today
+as Todoist tasks.
 
 
 ## getting started
@@ -40,7 +42,7 @@
    }
    ```
 
-1. :boom:
+1. :boom: For usage instructions, see
    ```sh
-   ./make_due_cards_todoist_tasks.py
+   trello-todoist -h
    ```
