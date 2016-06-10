@@ -15,6 +15,9 @@ from trello import TrelloClient
 from todoist import TodoistAPI
 
 
+def date_type(s):
+    return datetime.datetime.strptime(s, '%Y-%m-%d').date()
+
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument(
     'trello_board_name',
@@ -27,6 +30,12 @@ parser.add_argument(
 parser.add_argument(
     'todoist_project_name',
     help='name of the todoist project to which due cards should be assigned'
+)
+parser.add_argument(
+    '--trello-due-date',
+    type=date_type,
+    default=datetime.date.today(),
+    help='due date of trello card in YYYY-MM-DD format (%(default)s)',
 )
 parser.add_argument(
     '--trello',
@@ -43,6 +52,12 @@ parser.add_argument(
     help='todoist credentials file in json format',
 )
 args = parser.parse_args()
+
+
+def is_due(card):
+    """determine if a trello card is due or not"""
+    return card.due_date and card.due_date.date() == args.trello_due_date
+
 
 # get credentials and instantiate the client
 credentials = json.load(args.trello)
@@ -66,16 +81,11 @@ for _member in board.get_members():
 if member is None:
     raise ValueError('member "%(trello_username)s" not found' % vars(args))
 
-
-def is_due_today(card, today=None):
-    today = today or datetime.date.today()
-    return card.due_date and card.due_date.date() == today
-
 # find all of the cards on this board that are owned by this user and are due
 # today
 cards_due_today = []
 for card in board.all_cards():
-    if member.id in card.member_ids and is_due_today(card):
+    if member.id in card.member_ids and is_due(card):
         cards_due_today.append(card)
 
 # create an authenticated instance of the TodoistAPI
