@@ -2,9 +2,9 @@ import glob
 import os
 from setuptools import setup
 
-
 # get all of the scripts
-scripts = glob.glob("bin/*")
+this_dir = os.path.dirname(os.path.abspath(__file__))
+scripts = glob.glob(os.path.join(this_dir, "bin", "*"))
 
 # read in the description from README
 with open("README.md") as stream:
@@ -14,7 +14,7 @@ github_url='https://github.com/deanmalmgren/trello-todoist'
 
 # read in the dependencies from the virtualenv requirements file
 dependencies, dependency_links = [], []
-filename = os.path.join("REQUIREMENTS")
+filename = os.path.join(this_dir, "requirements", "python")
 with open(filename, 'r') as stream:
     for line in stream:
         line = line.strip()
@@ -25,7 +25,7 @@ with open(filename, 'r') as stream:
             if package:
                 dependencies.append(package)
 
-
+# create the package
 setup(
     name='trello-todoist',
     version='0.1.0',
