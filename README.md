@@ -51,7 +51,7 @@ as Todoist tasks.
 1. instantiate virtual environment
     ```sh
     mkvirtualenv trello-todoist
-    pip install -r REQUIREMENTS
+    pip install -r requirements/python-dev
     ```
 
 1. follow the quick start instructions above to get your trello and todoist

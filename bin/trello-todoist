@@ -28,13 +28,24 @@ parser.add_argument(
     'todoist_project_name',
     help='name of the todoist project to which due cards should be assigned'
 )
+parser.add_argument(
+    '--trello',
+    type=argparse.FileType('r'),
+    metavar='JSONFILE',
+    default='trello.json',
+    help='trello credentials file in json format',
+)
+parser.add_argument(
+    '--todoist',
+    type=argparse.FileType('r'),
+    metavar='JSONFILE',
+    default='todoist.json',
+    help='todoist credentials file in json format',
+)
 args = parser.parse_args()
 
 # get credentials and instantiate the client
-this_dir = os.path.dirname(os.path.abspath(__file__))
-filename = os.path.join(this_dir, 'trello.json')
-with open(filename, 'r') as stream:
-    credentials = json.load(stream)
+credentials = json.load(args.trello)
 client = TrelloClient(**credentials)
 
 # find the appropriate board
@@ -68,9 +79,7 @@ for card in board.all_cards():
         cards_due_today.append(card)
 
 # create an authenticated instance of the TodoistAPI
-filename = os.path.join(this_dir, 'todoist.json')
-with open(filename, 'r') as stream:
-    credentials = json.load(stream)
+credentials = json.load(args.todoist)
 todoist_api = TodoistAPI(**credentials)
 
 # get the project id
