@@ -1,5 +1,20 @@
-`trello-todoist` is a productivity hack to add Trello cards that are due today
-as Todoist tasks.
+Trello's email reminder system is broken (in my view); it sends email reminders
+the day before you specify a due date. I can imagine scenarios where this is
+nice, but it is very counterintuitive to me. Trello also doesn't have webhooks
+associated with due dates, so services like IFTTT or Zapier are unable to
+accomplish the functionality I want: add todoist tasks from Trello on the day
+they are due.
+
+`trello-todoist` is a hack to add trello cards to todoist on the day that they
+are due. It is intended to be set up as a cronjob with a crontab entry like:
+
+```
+53 3 * * * trello-todoist 'trello board' 'trello username' 'todoist project'
+```
+
+which runs `trello-todoist` every morning at 3:53 a.m. By default, this adds
+all trello cards that are due today from board `trello board` of which `trello
+username` is a member as a task to the corresponding `todoist project`.
 
 ## quick start
 
