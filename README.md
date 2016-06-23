@@ -15,6 +15,9 @@ are due. It is intended to be set up as a cronjob with a crontab entry like:
 which runs `trello-todoist` every morning at 3:53 a.m. By default, this adds
 all trello cards that are due today from board `trello board` of which `trello
 username` is a member as a task to the corresponding `todoist project`.
+Depending on the version of `requests` that is installed via python
+dependencies, you may also want to use `PYTHONWARNINGS=ignore` somewhere in
+your crontab to avoid being sent warnings every time the script is run.
 
 ## quick start
 
