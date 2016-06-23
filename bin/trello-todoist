@@ -51,6 +51,11 @@ parser.add_argument(
     default='todoist.json',
     help='todoist credentials file in json format',
 )
+parser.add_argument(
+    '--debug',
+    action='store_true',
+    help='do not add tasks to todoist; print them out on command line'
+)
 args = parser.parse_args()
 
 
@@ -105,9 +110,13 @@ if project_id is None:
 
 # add due cards as todoist tasks
 for card in cards_due_today:
-    todoist_api.add_item(
-        '[%(name)s](%(url)s)' % vars(card),
-        project_id=project_id,
-        day_order=0,
-        date_string='today',
-    )
+    text = '[%(name)s](%(url)s)' % vars(card)
+    if args.debug:
+        print text
+    else:
+        todoist_api.add_item(
+            text,
+            project_id=project_id,
+            day_order=0,
+            date_string='today',
+        )
