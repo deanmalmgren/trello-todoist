@@ -52,6 +52,12 @@ parser.add_argument(
     help='todoist credentials file in json format',
 )
 parser.add_argument(
+    '--todoist-priority',
+    type=int,
+    default=4,
+    help='set the todoist task priority',
+)
+parser.add_argument(
     '--debug',
     action='store_true',
     help='do not add tasks to todoist; print them out on command line'
@@ -118,5 +124,6 @@ for card in cards_due_today:
             text,
             project_id=project_id,
             day_order=0,
+            priority=args.todoist_priority,
             date_string='today',
         )
