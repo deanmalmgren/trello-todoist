@@ -28,7 +28,7 @@ with open(filename, 'r') as stream:
 # create the package
 setup(
     name='trello-todoist',
-    version='0.1.0',
+    version='0.2.0',
     description="convert due trello cards to todoist tasks",
     long_description=long_description,
     url=github_url,
