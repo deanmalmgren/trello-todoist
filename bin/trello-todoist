@@ -58,6 +58,12 @@ parser.add_argument(
     help='set the todoist task priority',
 )
 parser.add_argument(
+    '--todoist-label',
+    action='append',
+    help='add as many todoist labels to new tasks',
+    dest='todoist_labels',
+)
+parser.add_argument(
     '--debug',
     action='store_true',
     help='do not add tasks to todoist; print them out on command line'
@@ -114,16 +120,30 @@ if project_id is None:
         'did not find todoists project "%(todoist_project_name)s"'
     ) % vars(args))
 
+# get the label ids as necessary
+label_id_ref = {}
+label_ids = []
+todoist_labels = args.todoist_labels or []
+for todoist_label in todoist_api.labels.all():
+    name = todoist_label['name']
+    label_id_ref[name] = todoist_label['id']
+    label_id_ref['@' + name] = todoist_label['id']
+for label in todoist_labels:
+    label_ids.append(label_id_ref[label])
+
 # add due cards as todoist tasks
 for card in cards_due_today:
     text = '[%(name)s](%(url)s)' % vars(card)
     if args.debug:
-        print text
+        print 'Adding task', text
+        print '    to project', project_id
+        print '    with priority', args.todoist_priority
+        print '    and labels', label_ids
     else:
         todoist_api.add_item(
             text,
             project_id=project_id,
-            day_order=0,
+            labels=str(label_ids).replace(' ',''),
             priority=args.todoist_priority,
             date_string='today',
         )
